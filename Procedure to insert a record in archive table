@@ -1,0 +1,26 @@
+    createArchive(tableName, holder.getKey().longValue());
+
+    public void createArchive(String tableName,long primaryKey) throws DAOException{
+        PreparedStatementCreator pstmt = null;
+        try {
+            pstmt = createArchivePreparedStatement(tableName,primaryKey);
+            getJdbcTemplate().update(pstmt);
+        } catch (Exception e) {
+            log.error("Error Occured While Inserting Data createArchive");
+            throw new DAOException("DAOException-createArchive");
+        }
+    }
+
+    private static PreparedStatementCreator createArchivePreparedStatement(String tableName, long primaryKey) {
+        String sqlQueryArchive = "call logtoarch_emr(?, ?, 1, @o_result_status, @o_error_msg)";
+        return new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement pstmt=con.prepareStatement(sqlQueryArchive);
+                int i=1;
+                pstmt.setString(i++, tableName);
+                pstmt.setLong(i++, primaryKey);
+                return pstmt;
+            }
+        };
+    }
