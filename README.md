@@ -1,2 +1,2 @@
-# SQL-MYSQL-SQL-SERVER-ORACLE
+# SQL-MYSQL-SQL SERVER-ORACLE
 Some interesting articles on relational database
